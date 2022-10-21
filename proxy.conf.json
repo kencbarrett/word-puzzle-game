@@ -1,0 +1,10 @@
+{
+  "/wordService/*": {
+    "target": "http://localhost:5250",
+    "pathRewrite": {"^/wordService" : ""}
+  },
+  "/statsService/*": {
+    "target": "http://localhost:5250",
+    "pathRewrite": {"^/statsService" : ""}
+  }
+}

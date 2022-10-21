@@ -4,7 +4,7 @@ import { collections } from "../database";
 import { ValidWord } from "../models/validWord";
 import { UsedWord } from "../models/usedWord";
 import { UUID } from "bson";
-import { AggregationCursor, Collection } from "mongodb";
+import { Collection } from "mongodb";
 
 var _complexityFilter = {} ;
 var _usedWordComplexityFilter = {};
@@ -60,46 +60,12 @@ wordServiceRouter.get("/selectNewWord", async (req, res) => {
     const complexity = req.query['complexity']?.toString() as string;
     const playerIdentifier = new UUID(req.query['playerIdentifier']?.toString());
  
-    // const lookup = {
-    //   $lookup: {
-    //     from: "usedWords",
-    //     localField: "word",
-    //     foreignField: "word",
-    //     pipeline: [
-    //       {
-    //         $match: {
-    //           $expr: {
-    //             $eq: ["$playerIdentifier", playerIdentifier]
-    //           }
-    //         }
-    //       }
-    //     ],
-    //     as: "result"
-    //   }
-    // };
-
-    // const query = {
-    //   $match: {
-    //     "result": {
-    //       $size: 0
-    //     }
-    //   }
-    // };
-
-    // const projection = {
-    //   $project: {
-    //     _id: 1,
-    //     word: 1,
-    //     complexity: 1
-    //   }
-    // };
-
     setComplexityFilter((<any>ComplexityLevel)[complexity], playerIdentifier);
 
-    const validWords = collections.validWords as Collection<ValidWord>;;
-    const usedWords = collections.usedWords as Collection<UsedWord>;;
-    const allWords = await validWords.find<ValidWord>(_complexityFilter).toArray();
-    const pastWords = await usedWords.find<ValidWord>(_usedWordComplexityFilter).toArray();
+    const validWordsCollection = collections.validWords as Collection<ValidWord>;;
+    const usedWordsCollection = collections.usedWords as Collection<UsedWord>;;
+    const allWords = await validWordsCollection.find<ValidWord>(_complexityFilter).toArray();
+    const pastWords = await usedWordsCollection.find<ValidWord>(_usedWordComplexityFilter).toArray();
     const unusedWords = allWords.filter(function(aw){
       return !pastWords.find(function(uw) {
         return uw.word == aw.word;
@@ -126,9 +92,9 @@ wordServiceRouter.get("/isValidWord", async (req, res) => {
   try {
     const wordtoCheck = req.query['wordToCheck']?.toString();
 
-    const validWords = collections.validWords as Collection<ValidWord>;
+    const validWordsCollection = collections.validWords as Collection<ValidWord>;
     const query = { word: { $eq: wordtoCheck }}
-    var isValidWord = await validWords.findOne<ValidWord>(query);
+    var isValidWord = await validWordsCollection.findOne<ValidWord>(query);
 
     const result = (isValidWord) ? true : false;
     
