@@ -1,5 +1,5 @@
 import * as express from "express";
-import { ComplexityLevel } from "../models/complexity.enum";
+import { ComplexityLevel } from "../models/complexityLevel";
 import { collections } from "../database";
 import { ValidWord } from "../models/validWord";
 import { UsedWord } from "../models/usedWord";
@@ -12,7 +12,7 @@ var _usedWordComplexityFilter = {};
 function updateUsedWords(playerIdentifier: UUID, wordToUpdate: ValidWord): boolean {
   const wordToSave = new UsedWord();
   wordToSave.word = wordToUpdate.word;
-  wordToSave.copmplexity = wordToUpdate.copmplexity;
+  wordToSave.complexity = wordToUpdate.complexity;
   wordToSave.dateUsed = new Date();
   wordToSave.playerIdentifier = playerIdentifier;
 

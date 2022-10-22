@@ -2,6 +2,11 @@ import { ComplexityLevel } from "./complexityLevel";
 
 export class ValidWord {
   _id?: string;
-  word: string | undefined;
-  complexity: ComplexityLevel | undefined;
+  word: string;
+  complexity: ComplexityLevel;
+
+  constructor() {
+    this.word = "";
+    this.complexity = ComplexityLevel.Easy;
+  }
 }

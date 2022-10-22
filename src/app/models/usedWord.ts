@@ -2,7 +2,13 @@ import { ComplexityLevel } from "./complexityLevel";
 
 export class UsedWord {
   _id?: string;
-  word: string | undefined;
-  complexity: ComplexityLevel | undefined;
-  dateUsed: Date | undefined;
+  word: string;
+  complexity: ComplexityLevel;
+  dateUsed: Date;
+
+  constructor() {
+    this.word = "";
+    this.complexity = ComplexityLevel.Easy;
+    this.dateUsed = new Date();
+  }
 }

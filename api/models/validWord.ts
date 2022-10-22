@@ -1,8 +1,13 @@
 import * as mongodb from "mongodb";
-import { ComplexityLevel } from "./complexity.enum";
+import { ComplexityLevel } from "./complexityLevel";
  
 export class ValidWord {
-   word: string | undefined;
-   copmplexity: ComplexityLevel | undefined;
+   word: string;
+   complexity: ComplexityLevel;
    _id?: mongodb.ObjectId;
+
+   constructor() {
+      this.word = "";
+      this.complexity = ComplexityLevel.Easy;
+   }
 }

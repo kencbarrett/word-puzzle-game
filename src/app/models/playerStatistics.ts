@@ -1,15 +1,27 @@
 import * as uuid from 'uuid';
 
 export class PlayerStatistics {
-  _id?: string | undefined;
-  playerIdentifier:  uuid.V4Options | undefined;
-  lastDatePlayed: Date | undefined;
-  totalGamesPlayed: number | undefined;
-  totalGamesWon: number | undefined;
-  currentWinStreak: number | undefined;
-  longestWinStreak: number | undefined;
-  frequencyDistributionEasy: number[] = [6];
-  frequencyDistributionMedium: number[] = [6];
-  frequencyDistributionHard: number[] = [6];
+  _id?: string;
+  playerIdentifier: uuid.V4Options;
+  lastDatePlayed: Date;
+  totalGamesPlayed: number;
+  totalGamesWon: number;
+  currentWinStreak: number;
+  longestWinStreak: number;
+  easyFrequencyDistribution: number[];
+  mediumFrequencyDistribution: number[];
+  hardFrequencyDistribution: number[];
+
+  constructor() {
+    this.playerIdentifier = uuid.v4() as uuid.V4Options;
+    this.lastDatePlayed = new Date();
+    this.totalGamesPlayed = 0;
+    this.totalGamesWon = 0;
+    this.currentWinStreak = 0;
+    this.longestWinStreak = 0;
+    this.easyFrequencyDistribution = new Array<number>(6);
+    this.mediumFrequencyDistribution = new Array<number>(6);
+    this.hardFrequencyDistribution = new Array<number>(6);
+  }
 }
 

@@ -35,21 +35,24 @@ statsServiceRouter.post("/playerStats", async (req, res) => {
 
     const filter = { playerIdentifier: playerStats.playerIdentifier };
     const result = await playerStatsCollection.updateOne(
-        {
-          playerIdentifier: new UUID(playerStats.playerIdentifier)
-        },
-        {
-          $set: {
-            lastDatePlayed: playerStats.lastDatePlayed,
-            totalGamesPlayed: playerStats.totalGamesPlayed,
-            totalGamesWon: playerStats.totalGamesWon,
-            currentWinStreak: playerStats.currentWinStreak,
-            longestWinStreak: playerStats.longestWinStreak,
-            frequencyDistributionEasy: playerStats.easyFrequencyDistribution,
-            frequencyDistributionMedium: playerStats.mediumFrequencyDistribution,
-            freaquencyDistributionHard: playerStats.hardFrequencyDistribution
-          }
+      {
+        playerIdentifier: new UUID(playerStats.playerIdentifier)
+      },
+      {
+        $set: {
+          lastDatePlayed: playerStats.lastDatePlayed,
+          totalGamesPlayed: playerStats.totalGamesPlayed,
+          totalGamesWon: playerStats.totalGamesWon,
+          currentWinStreak: playerStats.currentWinStreak,
+          longestWinStreak: playerStats.longestWinStreak,
+          frequencyDistributionEasy: playerStats.easyFrequencyDistribution,
+          frequencyDistributionMedium: playerStats.mediumFrequencyDistribution,
+          freaquencyDistributionHard: playerStats.hardFrequencyDistribution
         }
+      },
+      {
+        upsert: true
+      }
     );
 
     res.status(200).send(result);

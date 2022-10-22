@@ -10,22 +10,22 @@ import { ComplexityLevel } from '../models/complexityLevel';
 })
 export class GameWordService {
   private wordIsValid: boolean;
+  private wordServiceUri: string;
 
   constructor(private http: HttpClient) { 
     this.wordIsValid = false;
+    this.wordServiceUri = '/wordService/'
   }
 
-  selectNewWord(complexity: ComplexityLevel, playerIdentifier: uuid.V4Options): Observable<ValidWord> {
+  selectNewWord(complexity: ComplexityLevel, playerIdentifier: string): Observable<ValidWord> {
     const level = complexity.valueOf();
-    const url = '/wordService/selectNewWord?complexity=' + level + '&playerIdentifier=' + playerIdentifier;
+    const uri = this.wordServiceUri + 'selectNewWord?complexity=' + level + '&playerIdentifier=' + playerIdentifier;
 
-    return this.http.get<ValidWord>(url);
+    return this.http.get<ValidWord>(uri);
   }
 
   isValidWord(word: string): boolean {
-    const url = '/wordService?wordToCheck=' + word;
-    
-    this.http.get<boolean>(url).subscribe(response => {
+    this.http.get<boolean>(this.wordServiceUri + '?wordToCheck=' + word).subscribe(response => {
       this.wordIsValid = response;
     });
 
