@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ValidWord } from 'api/models/validWord';
-import * as uuid from "uuid";
 import { ComplexityLevel } from '../models/complexityLevel';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,13 @@ export class GameWordService {
 
   constructor(private http: HttpClient) { 
     this.wordIsValid = false;
-    this.wordServiceUri = '/wordService/'
+    this.wordServiceUri = environment.wordServiceUri;
   }
 
   selectNewWord(complexity: ComplexityLevel, playerIdentifier: string): Observable<ValidWord> {
     const level = complexity.valueOf();
-    const uri = this.wordServiceUri + 'selectNewWord?complexity=' + level + '&playerIdentifier=' + playerIdentifier;
+    const uri = this.wordServiceUri + 'selectNewWord?complexity=' + level + 
+      '&playerIdentifier=' + playerIdentifier;
 
     return this.http.get<ValidWord>(uri);
   }

@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  localStorageKey: "dev.word.puzzle.gamestats"
+  localStorageKey: "dev.word.puzzle.gamestats",
+  statsServiceUri: "/statsService/playerStats",
+  wordServiceUri: "/wordService/"
 };
 
 /*

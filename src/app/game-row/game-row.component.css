@@ -1,0 +1,93 @@
+/* Game Row CSS */
+:host {
+  display: block;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+  overflow: hidden;
+}
+
+.win {
+  -webkit-animation-name: Bounce;
+  animation-name: Bounce;
+  -webkit-animation-duration: 1000ms;
+  animation-duration: 1000ms;
+  overflow: hidden;
+}
+
+@keyframes Bounce {
+  0%, 20% {
+      transform: translateY(0);
+  }
+
+  40% {
+      transform: translateY(-30px);
+  }
+
+  50% {
+      transform: translateY(5px);
+  }
+
+  60% {
+      transform: translateY(-15px);
+  }
+
+  80% {
+      transform: translateY(2px);
+  }
+
+  100% {
+      transform: translateY(0);
+  }
+}
+
+.row[data-animation='invalid'] {
+  /*    -webkit-animation-name: Shake;
+  animation-name: Shake;
+  -webkit-animation-duration: 600ms;
+  animation-duration: 600ms;
+  overflow: hidden;*/
+  animation: shakeRow 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes Shake {
+  10%, 90% {
+      transform: translateX(-1px);
+  }
+
+  20%, 80% {
+      transform: translateX(2px);
+  }
+
+  30%, 50%, 70% {
+      transform: translateX(-4px);
+  }
+
+  40%, 60% {
+      transform: translateX(4px);
+  }
+}
+
+@keyframes shakeRow {
+  10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+      transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+      transform: translate3d(4px, 0, 0);
+  }
+}
