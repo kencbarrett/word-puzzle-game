@@ -32,6 +32,7 @@
   }
 }
 
+/* original CSS classes */
 .tile[data-state='empty'] {
   border: 2px solid var(--color-tone-4);
 }

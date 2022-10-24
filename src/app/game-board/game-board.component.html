@@ -33,4 +33,7 @@
       <GameRow *ngFor="let gameRow of this.gameRows"></GameRow>
     </div>
   </div>
+  <GameKeyboard (nextLetter)="nextLetter($event)" 
+                (undoLetter)="undoLetter($event)" 
+                (checkWord)="checkWord($event)"></GameKeyboard>
 </div>

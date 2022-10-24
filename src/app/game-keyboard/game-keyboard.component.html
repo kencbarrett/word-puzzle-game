@@ -1,0 +1,34 @@
+<div id="keyboard">
+  <div class="keyboardRow">
+    <div class="spacer half"></div>
+    <button *ngFor="let button of this.keyboard.firstRowButtons" 
+        [attr.data-state]="button.currentState"
+        (click)="letterSelected(button.value)">
+      {{ button.value }}
+    </button>
+    <div class="spacer half"></div>
+  </div>
+  <div class="keyboardRow">
+    <div class="spacer half"></div>
+    <button *ngFor="let button of this.keyboard.secondRowButtons" 
+        [attr.data-state]="button.currentState"
+        (click)="letterSelected(button.value)">
+      {{ button.value }}
+    </button>
+    <div class="spacer half"></div>
+  </div>
+  <div class="keyboardRow">
+    <div class="spacer half"></div>
+    <button>Enter</button>
+    <button *ngFor="let button of this.keyboard.thirdRowButtons" 
+      [attr.data-state]="button.currentState"
+      (click)="letterSelected(button.value)">
+      {{ button.value }}
+    </button>
+    <button>
+      <i class="fa fa-undo"></i>
+    </button>
+    <div class="spacer half"></div>
+  </div>
+</div>
+

@@ -1,3 +1,5 @@
-<div class="tile">
+<div class="tile" 
+    [attr.data-state]="this.gameTile.dataState" 
+    [attr.data-animation]="this.gameTile.dataAnimation">
   {{this.gameTile.value}}
 </div>
