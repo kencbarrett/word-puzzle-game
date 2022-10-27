@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GameRow } from './gameRow';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { GameTileComponent } from '../game-tile/game-tile.component';
 
 @Component({
   selector: 'GameRow',
@@ -7,14 +7,12 @@ import { GameRow } from './gameRow';
   styleUrls: ['./game-row.component.css']
 })
 export class GameRowComponent implements OnInit {
-
-  gameRow: GameRow;
-
-  constructor() { 
-    this.gameRow = new GameRow();
-  }
+  @ViewChildren(GameTileComponent) gameTiles: QueryList<any> | undefined;
 
   ngOnInit(): void {
   }
 
+  reset() {
+    this.gameTiles?.forEach(gt => gt.reset());
+  }
 }

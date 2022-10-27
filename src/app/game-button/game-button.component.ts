@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { GameButton } from './gameButton';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'GameButton',
@@ -7,12 +6,22 @@ import { GameButton } from './gameButton';
   styleUrls: ['./game-button.component.css']
 })
 export class GameButtonComponent implements OnInit {
-  gameButton: GameButton;
+  @Input('value') value: string;
+  currentState: string;
 
   constructor() { 
-    this.gameButton = new GameButton("");
+    this.value = "";
+    this.currentState = "";
   }
 
   ngOnInit(): void {
+  }
+
+  setCurrentState(currentState: string) {
+    this.currentState = currentState;
+  }
+
+  reset() {
+    this.currentState = "";
   }
 }

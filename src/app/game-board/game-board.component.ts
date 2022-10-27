@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { GameKeyboard } from '../game-keyboard/gameKeyboard';
-import { GameRow } from '../game-row/gameRow';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ComplexityLevel } from '../models/complexityLevel';
 import { GameEngineService } from '../services/game-engine.service';
 import { GameStateService } from '../services/game-state.service';
 import { ToastrService } from 'ngx-toastr';
+import { GameRowComponent } from '../game-row/game-row.component';
+import { GameKeyboardComponent } from '../game-keyboard/game-keyboard.component';
 
 @Component({
   selector: 'GameBoard',
@@ -12,26 +12,18 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
+  @ViewChildren(GameRowComponent) gameRows: QueryList<any> | undefined;
+  @ViewChild(GameKeyboardComponent) keyboard: any | undefined;
+
   isVisible: boolean;
   isDisabled: boolean;
   complexityLevels: string[] = ComplexityLevel.keys();
-  gameRows: GameRow[];
-  gameKeyboard: GameKeyboard;
 
   constructor(private gameEngineService: GameEngineService,
               private stateService: GameStateService,
               private toastr: ToastrService) { 
     this.isVisible = false;
     this.isDisabled = false;
-    this.gameKeyboard = new GameKeyboard();
-    this.gameRows = [
-      new GameRow(),
-      new GameRow(),
-      new GameRow(),
-      new GameRow(),
-      new GameRow(),
-      new GameRow()
-    ];
   }
 
   ngOnInit(): void {
@@ -104,12 +96,9 @@ export class GameBoardComponent implements OnInit {
       this.stateService.resetComplexityLevel();
 
       // reset the keyboard
-      this.gameKeyboard.reset();
+      this.keyboard.reset();
 
-      // reset the game board
-      this.gameRows.forEach(gr => {
-        gr.reset();
-      });
+      this.gameRows?.forEach(gr => { gr.reset() });
     }
   }
 
@@ -118,9 +107,12 @@ export class GameBoardComponent implements OnInit {
     {
         if (this.stateService.currentColumn < 5)
         {
-            this.gameRows[this.stateService.currentGuess]
-              .gameTiles[this.stateService.currentColumn].setValue(eventData);
-            this.stateService.incrementCurrentColumn();
+          var gameRow = this.gameRows?.get(this.stateService.currentGuess);
+          var gameTile = gameRow.gameTiles.get(this.stateService.currentColumn);
+          gameTile.updateTileValue(eventData);
+            // this.gameRows[this.stateService.currentGuess]
+            //   .gameTiles[this.stateService.currentColumn].setValue(eventData);
+          this.stateService.incrementCurrentColumn();
         }
     }
     else
@@ -139,8 +131,8 @@ export class GameBoardComponent implements OnInit {
                 this.stateService.decrementCurrentColumn();
             }
 
-            this.gameRows[this.stateService.currentGuess]
-              .gameTiles[this.stateService.currentColumn].value = "";
+            // this.gameRows[this.stateService.currentGuess]
+            //   .gameTiles[this.stateService.currentColumn].value = "";
         }
     }
     else
@@ -152,13 +144,13 @@ export class GameBoardComponent implements OnInit {
   checkWord(eventData: {}) {
     if (this.gameEngineService.gameInProgress)
     {
-        var gameRow = this.gameRows[this.stateService.currentGuess];
+        // var gameRow = this.gameRows[this.stateService.currentGuess];
         var tileValues = Array<string>(5);
 
-        for (let index = 0; index < 5; index++)
-        {
-          tileValues.push(gameRow.gameTiles[index].value);
-        }
+        // for (let index = 0; index < 5; index++)
+        // {
+        //   tileValues.push(gameRow.gameTiles[index].value);
+        // }
 
         var word = tileValues.join();
 
@@ -183,7 +175,7 @@ export class GameBoardComponent implements OnInit {
           }
           else {
             var evaluatedWord = this.gameEngineService.evaluateCurrentGuess(word);
-            gameRow.updateGameTiles(evaluatedWord);
+            // gameRow.updateGameTiles(evaluatedWord);
             // gameKeyboard.updateKeyboard(evaluatedWord);
 
             if (this.stateService.currentGuess < 5) {
@@ -193,7 +185,7 @@ export class GameBoardComponent implements OnInit {
             this.stateService.resetCurrentColumn();
           }
 
-          this.gameRows[this.stateService.currentGuess].invalidWord();
+          // this.gameRows[this.stateService.currentGuess].invalidWord();
 
           this.toastr.error("Not a valid word");
         }

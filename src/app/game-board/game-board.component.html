@@ -30,10 +30,16 @@
 <div class="game">
   <div class="board-container">
     <div class="board">
-      <GameRow *ngFor="let gameRow of this.gameRows"></GameRow>
+      <GameRow #gameRows></GameRow>
+      <GameRow #gameRows></GameRow>
+      <GameRow #gameRows></GameRow>
+      <GameRow #gameRows></GameRow>
+      <GameRow #gameRows></GameRow>
+      <GameRow #gameRows></GameRow>
     </div>
   </div>
-  <GameKeyboard (nextLetter)="nextLetter($event)" 
+  <GameKeyboard #keyboard 
+                (nextLetter)="nextLetter($event)" 
                 (undoLetter)="undoLetter($event)" 
                 (checkWord)="checkWord($event)"></GameKeyboard>
 </div>

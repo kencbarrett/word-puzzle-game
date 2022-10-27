@@ -28,7 +28,7 @@ export class GameEngineService {
   }
 
   startGame(complexity: ComplexityLevel) {
-    this.retrievePlayerStatistics();
+    this.playerStatistics = this.retrievePlayerStatistics();
     this.gameInProgress = true;
   }
 
@@ -50,7 +50,7 @@ export class GameEngineService {
       }
     }
 
-    // Pass 2 - l5ers that are present but in wrong position
+    // Pass 2 - look for letters that are present but in wrong position
     for (let index = 0; index < 5; index++) {
       // if a letter has been matched, skip it
       if (!matchedLetters.includes(currentGuess[index])) {
@@ -74,7 +74,7 @@ export class GameEngineService {
   }
 
   updatePlayerStatistics(wonGame: boolean, currentDate: Date, guessCount: number, complexity: ComplexityLevel): void {
-    this.playerStatistics.totalGamesPlayed += 1;
+    this.playerStatistics?.totalGamesPlayed
     this.playerStatistics.lastDatePlayed = new Date();
 
     if (wonGame) {
@@ -103,19 +103,22 @@ export class GameEngineService {
     this.statsService.updatePlayerStatistics(this.playerStatistics);
   }
 
-  private retrievePlayerStatistics() {
+  private retrievePlayerStatistics(): PlayerStatistics {
     const playerIdFromStorage = localStorage.getItem(this.localStorageKey);
+    var playerStats = this.playerStatistics;
 
     if (playerIdFromStorage == null) {
       // create a new player statistics document
-      this.statsService.updatePlayerStatistics(this.playerStatistics);
-      localStorage.setItem(this.localStorageKey, this.playerStatistics.playerIdentifier as string);
+      this.statsService.updatePlayerStatistics(playerStats);
+      localStorage.setItem(this.localStorageKey, playerStats.playerIdentifier.toString());
     } else {
       // retrieve existing player statistics document
       this.statsService.retrievePlayerStatistics(playerIdFromStorage).subscribe(response => {
-        this.playerStatistics = response;
+        playerStats = response;
       })
     }
+
+    return playerStats;
   }
 
   private selectNewWord(complexity: ComplexityLevel) {
