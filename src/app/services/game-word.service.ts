@@ -1,35 +1,41 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ValidWord } from 'api/models/validWord';
 import { ComplexityLevel } from '../models/complexityLevel';
-import { environment } from 'src/environments/environment';
+import { ValidWord } from '../models/validWord';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameWordService {
-  private wordIsValid: boolean;
-  private wordServiceUri: string;
+  private apiUrl: string;
 
   constructor(private http: HttpClient) { 
-    this.wordIsValid = false;
-    this.wordServiceUri = environment.wordServiceUri;
+    //this.apiUrl = environment.apiUrl;
+    this.apiUrl = "http://localhost:3000/api";
   }
 
-  selectNewWord(complexity: ComplexityLevel, playerIdentifier: string): Observable<ValidWord> {
-    const level = complexity.valueOf();
-    const uri = this.wordServiceUri + 'selectNewWord?complexity=' + level + 
-      '&playerIdentifier=' + playerIdentifier;
+  async selectNewWord(complexity: ComplexityLevel, playerId: string) {
+    let level: string;
+    
+    switch (complexity) {
+      case ComplexityLevel.Medium:
+        level = "Medium";
+        break;
+    
+      case ComplexityLevel.Hard:
+        level = "Hard";
+        break;
 
-    return this.http.get<ValidWord>(uri);
+      default:
+        level = "Easy";
+        break;
+    }
+
+    return await firstValueFrom(this.http.get<ValidWord>(this.apiUrl + '/selectWord/' + level + '/' + playerId));
   }
 
-  isValidWord(word: string): boolean {
-    this.http.get<boolean>(this.wordServiceUri + '?wordToCheck=' + word).subscribe(response => {
-      this.wordIsValid = response;
-    });
-
-    return this.wordIsValid;
+  async validateWord(wordToCheck: string) {
+    return await firstValueFrom(this.http.get<boolean>(this.apiUrl + '/validateWord/' + wordToCheck));
   }
 }

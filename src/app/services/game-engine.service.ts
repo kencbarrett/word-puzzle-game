@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { Injectable, resolveForwardRef } from '@angular/core';
+import { NotFoundError } from 'rxjs';
 import { ComplexityLevel } from '../models/complexityLevel';
 import { EvaluatedLetter } from '../models/evaluatedLetter';
 import { EvaluatedWord } from '../models/evaluatedWord';
@@ -16,19 +16,27 @@ export class GameEngineService {
   gameOver: boolean;
   playerStatistics: PlayerStatistics;
   currentWord: ValidWord;
-  private localStorageKey: string;
   private userGuesses: EvaluatedWord[] = [];
+  private wordIsValid: boolean;
 
   constructor(private wordService: GameWordService, private statsService: PlayerStatsService) { 
     this.gameInProgress = false;
     this.gameOver = false;
-    this.localStorageKey = environment.localStorageKey;
+    this.wordIsValid = false;
     this.playerStatistics = new PlayerStatistics();
     this.currentWord = new ValidWord();
   }
 
   startGame(complexity: ComplexityLevel) {
-    this.playerStatistics = this.retrievePlayerStatistics();
+    this.statsService.retrievePlayerStatistics().then(result => {
+      //console.log(result);
+      this.setPlayerStatistics(result);
+      this.wordService.selectNewWord(complexity, result.playerIdentifier).then(result => {
+        //console.log(result);
+        this.setCurrentWord(result);
+      })
+    });
+
     this.gameInProgress = true;
   }
 
@@ -65,67 +73,45 @@ export class GameEngineService {
     return evaluatedWord;
   }
 
-  isValidWord(word: string): boolean {
-    return this.wordService.isValidWord(word);
+  isValidWord(word: string) {
+    this.wordService.validateWord(word).then(result => {
+      this.setWordIsValid(result);
+    });
+
+    return this.wordIsValid;
   }
 
   isCorrectWord(word: string): boolean {
     return this.currentWord.word == word;
   }
 
-  updatePlayerStatistics(wonGame: boolean, currentDate: Date, guessCount: number, complexity: ComplexityLevel): void {
-    this.playerStatistics?.totalGamesPlayed
-    this.playerStatistics.lastDatePlayed = new Date();
-
-    if (wonGame) {
-      this.playerStatistics.totalGamesWon += 1;
-      this.playerStatistics.currentWinStreak += 1;   
-      
-      if (this.playerStatistics.longestWinStreak < this.playerStatistics.currentWinStreak) {
-        this.playerStatistics.longestWinStreak = this.playerStatistics.currentWinStreak;
-      }
-    } else {
-      this.playerStatistics.currentWinStreak = 0;
-    }
-
-    switch(complexity) {
-      case ComplexityLevel.Easy:
-        this.playerStatistics.easyFrequencyDistribution[guessCount] += 1;
-        break;
-      case ComplexityLevel.Medium:
-        this.playerStatistics.mediumFrequencyDistribution[guessCount] += 1;
-        break;
-      case ComplexityLevel.Hard:
-        this.playerStatistics.hardFrequencyDistribution[guessCount] += 1;
-        break;
-    }
-
-    this.statsService.updatePlayerStatistics(this.playerStatistics);
+  updatePlayerStatistics(wonGame: boolean, currentDate: Date, guessCount: number, complexity: ComplexityLevel) {
+    this.statsService.updatePlayerStatistics(this.playerStatistics.playerIdentifier, 
+        wonGame, currentDate, guessCount, complexity).then(result => {
+          this.playerStatistics = result;
+        });
   }
 
-  private retrievePlayerStatistics(): PlayerStatistics {
-    const playerIdFromStorage = localStorage.getItem(this.localStorageKey);
-    var playerStats = this.playerStatistics;
-
-    if (playerIdFromStorage == null) {
-      // create a new player statistics document
-      this.statsService.updatePlayerStatistics(playerStats);
-      localStorage.setItem(this.localStorageKey, playerStats.playerIdentifier.toString());
-    } else {
-      // retrieve existing player statistics document
-      this.statsService.retrievePlayerStatistics(playerIdFromStorage).subscribe(response => {
-        playerStats = response;
-      })
-    }
-
-    return playerStats;
+  private setPlayerStatistics(player: PlayerStatistics) {
+    this.playerStatistics._id = player._id;
+    this.playerStatistics.playerIdentifier = player.playerIdentifier;
+    this.playerStatistics.lastDatePlayed = player.lastDatePlayed;
+    this.playerStatistics.currentWinStreak = player.currentWinStreak;
+    this.playerStatistics.longestWinStreak = player.longestWinStreak;
+    this.playerStatistics.totalGamesPlayed = player.totalGamesPlayed;
+    this.playerStatistics.totalGamesWon = player.totalGamesWon;
+    this.playerStatistics.frequencyDistributionEasy = player.frequencyDistributionEasy;
+    this.playerStatistics.frequencyDistributionMedium = player.frequencyDistributionMedium;
+    this.playerStatistics.frequencyDistributionHard = player.frequencyDistributionHard;
   }
 
-  private selectNewWord(complexity: ComplexityLevel) {
-    this.wordService.selectNewWord(complexity, this.playerStatistics.playerIdentifier as string).subscribe(response => {
-      this.currentWord._id = response._id?.toString(),
-      this.currentWord.word = response.word,
-      this.currentWord.complexity = response.complexity;
-    });
+  private setCurrentWord(currentWord: ValidWord) {
+    this.currentWord._id = currentWord._id;
+    this.currentWord.word = currentWord.word;
+    this.currentWord.complexity = currentWord.complexity;
+  }
+
+  private setWordIsValid(isValid: boolean) {
+    this.wordIsValid = isValid;
   }
 }

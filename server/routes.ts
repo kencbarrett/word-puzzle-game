@@ -18,15 +18,17 @@ gameServiceRouter.get("/playerStats/:playerId", async (request, response) => {
         response.status(404).send(`Failed to find player statistics for player id: ${playerId}`);
     }
     } catch (error) {
-        response.status(404).send(`Failed to find player statistics for player id: ${request.query['playerIdentifier']}`);
+        response.status(500).send(`Unknown error occurred: ${error}`);
     }
 });
 
-gameServiceRouter.post('/playerStats', async (request, response) => {
+gameServiceRouter.post('/playerStats/:playerId', async (request, response) => {
     try {
+        let playerId = request.params.playerId;
         let requestBody = request.body;
+
         let playerStats = new PlayerStats({
-            playerIdentifier: MUUID.from(requestBody.playerIdentifier),
+            playerIdentifier: (playerId != "") ? MUUID.from(playerId) : MUUID.v4(),
             lastDatePlayed: requestBody.lastDatePlayed,
             totalGamesPlayed: requestBody.totalGamesPlayed,
             totalGamesWon: requestBody.totalGamesWon,

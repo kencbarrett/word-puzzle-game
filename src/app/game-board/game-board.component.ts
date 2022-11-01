@@ -37,8 +37,6 @@ export class GameBoardComponent implements OnInit {
   }
   
   updateDifficulty(newDifficulty: string) {
-    console.log("newDifficulty is " + newDifficulty);
-
     switch (newDifficulty) {
       case "Medium":
         this.stateService.setComplexityLevel(ComplexityLevel.Medium);
@@ -57,13 +55,7 @@ export class GameBoardComponent implements OnInit {
   }
 
   currentDifficulty() {
-    if (this.stateService.complexity == ComplexityLevel.Easy)
-      return "Easy";
-    
-    if (this.stateService.complexity == ComplexityLevel.Medium)
-      return "Medium";
-    else  
-      return "Hard";
+    return ComplexityLevel.keys().at(this.stateService.complexity.valueOf());
   }
 
   setVisibility() {
@@ -110,8 +102,6 @@ export class GameBoardComponent implements OnInit {
           var gameRow = this.gameRows?.get(this.stateService.currentGuess);
           var gameTile = gameRow.gameTiles.get(this.stateService.currentColumn);
           gameTile.updateTileValue(eventData);
-            // this.gameRows[this.stateService.currentGuess]
-            //   .gameTiles[this.stateService.currentColumn].setValue(eventData);
           this.stateService.incrementCurrentColumn();
         }
     }
@@ -128,11 +118,11 @@ export class GameBoardComponent implements OnInit {
         {
             if (this.stateService.currentColumn > 0)
             {
-                this.stateService.decrementCurrentColumn();
+              this.stateService.decrementCurrentColumn();
             }
 
-            // this.gameRows[this.stateService.currentGuess]
-            //   .gameTiles[this.stateService.currentColumn].value = "";
+            var gameRow = this.gameRows?.get(this.stateService.currentGuess);
+            gameRow.gameTiles.get(this.stateService.currentColumn).updateTileValue("");
         }
     }
     else
@@ -144,26 +134,25 @@ export class GameBoardComponent implements OnInit {
   checkWord(eventData: {}) {
     if (this.gameEngineService.gameInProgress)
     {
-        // var gameRow = this.gameRows[this.stateService.currentGuess];
-        var tileValues = Array<string>(5);
+        let tileValues: string[] = [];
+        let gameRow = this.gameRows?.get(this.stateService.currentGuess);
+        let gameTiles = this.gameRows?.get(this.stateService.currentGuess).gameTiles;
 
-        // for (let index = 0; index < 5; index++)
-        // {
-        //   tileValues.push(gameRow.gameTiles[index].value);
-        // }
+        gameTiles.forEach((tile: { value: string; }) => {
+          tileValues.push(tile.value);
+        });
 
-        var word = tileValues.join();
-
-        var isValidWord = this.gameEngineService.isValidWord(word);
+        let word = tileValues.join("").toLowerCase();
+        let isValidWord = this.gameEngineService.isValidWord(word);
 
         if (isValidWord)
         {
           this.stateService.decrementGuessCount();
           
-          var isCorrectWord = this.gameEngineService.isCorrectWord(word);
+          let isCorrectWord = this.gameEngineService.isCorrectWord(word);
 
           if (isCorrectWord) {
-            // gameRow.Winnder();
+            this.gameRows?.get(this.stateService.currentGuess).winner();
             this.gameEngineService.endGame();
             this.gameEngineService.updatePlayerStatistics(true, new Date(), 
                   this.stateService.currentGuess, this.stateService.complexity);
@@ -175,8 +164,8 @@ export class GameBoardComponent implements OnInit {
           }
           else {
             var evaluatedWord = this.gameEngineService.evaluateCurrentGuess(word);
-            // gameRow.updateGameTiles(evaluatedWord);
-            // gameKeyboard.updateKeyboard(evaluatedWord);
+            gameRow.updateTiles(evaluatedWord);
+            this.keyboard.updateKeyboard(evaluatedWord);
 
             if (this.stateService.currentGuess < 5) {
               this.stateService.incrementCurrentGuess();
@@ -184,10 +173,10 @@ export class GameBoardComponent implements OnInit {
 
             this.stateService.resetCurrentColumn();
           }
-
-          // this.gameRows[this.stateService.currentGuess].invalidWord();
-
-          this.toastr.error("Not a valid word");
+        }
+        else {
+          gameRow.invalidWord();
+          this.toastr.error("Not a valid word");          
         }
 
         if (this.stateService.guessCount == 0 && this.gameEngineService.gameInProgress) {

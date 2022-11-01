@@ -5,8 +5,7 @@
 export const environment = {
   production: false,
   localStorageKey: "dev.word.puzzle.gamestats",
-  statsServiceUri: "http://localhost:5250/statsService/playerStats",
-  wordServiceUri: "http://localhost:5250/wordService/"
+  apiUrl: "http://localhost:4200/api"
 };
 
 /*

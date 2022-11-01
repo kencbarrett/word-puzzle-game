@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { GameButtonComponent } from '../game-button/game-button.component';
-import { EvaluatedLetter } from '../models/evaluatedLetter';
 import { EvaluatedWord } from '../models/evaluatedWord';
 import { GameStateService } from '../services/game-state.service';
 
@@ -53,16 +52,16 @@ export class GameKeyboardComponent implements OnInit {
       this.currentGuess.forEach(cg => {
         if (presentLetters.findIndex(pl => { pl.letter == cg }) != -1) {
           var button = this.keyboardButtons?.find(kb => kb.value == cg) as GameButtonComponent;
-          button.currentState = "present";
+          button.setCurrentState("present");
         }
         else {
           if (correctLetters.findIndex(cl => { cl.letter == cg}) != -1) {
             var button = this.keyboardButtons?.find(kb => kb.value == cg) as GameButtonComponent;
-            button.currentState = "correct";
+            button.setCurrentState("correct");
           }
           else {
             var button = this.keyboardButtons?.find(kb => kb.value == cg) as GameButtonComponent;
-            button.currentState = "absent";
+            button.setCurrentState("absent");
           }
         }
       });
