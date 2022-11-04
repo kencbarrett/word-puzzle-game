@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ComplexityLevel } from '../models/complexityLevel';
-
 import { GameStateService } from './game-state.service';
 
 describe('GameStateService', () => {

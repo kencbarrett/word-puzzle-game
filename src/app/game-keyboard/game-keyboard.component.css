@@ -19,7 +19,7 @@
 ::deep button {
   font-family: inherit;
   font-weight: bold;
-  border: 0;
+  border: 0px;
   padding: 0;
   margin: 0 6px 0 0;
   height: 58px;
@@ -36,16 +36,31 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0.3);
 }
 
-button:focus {
+::deep button:focus {
   outline: none;
 }
 
-button.fade {
+::deep button.fade {
   transition: background-color 0.1s ease, color 0.1s ease;
 }
 
-button:last-of-type {
+::deep button:last-of-type {
   margin: 0;
+}
+
+::deep button[data-state='correct'] {
+  background-color: var(--key-bg-correct);
+  color: var(--key-evaluated-text-color);
+}
+
+::deep button[data-state='present'] {
+  background-color: var(--key-bg-present);
+  color: var(--key-evaluated-text-color);
+}
+
+::deep button[data-state='absent'] {
+  background-color: var(--key-bg-absent);
+  color: var(--key-evaluated-text-color);
 }
 
 .half {
@@ -63,19 +78,4 @@ button:last-of-type {
 
 .two {
   flex: 2;
-}
-
-::deep button[data-state='correct'] {
-  background-color: var(--key-bg-correct);
-  color: var(--key-evaluated-text-color);
-}
-
-::deep button[data-state='present'] {
-  background-color: var(--key-bg-present);
-  color: var(--key-evaluated-text-color);
-}
-
-::deep button[data-state='absent'] {
-  background-color: var(--key-bg-absent);
-  color: var(--key-evaluated-text-color);
 }

@@ -11,70 +11,64 @@ import { ComplexityLevel } from '../models/complexityLevel';
 export class PlayerStatsService {
   private apiUrl: string;
   private localStorageKey: string;
-  private playerStats: PlayerStatistics;
   
   constructor(private http: HttpClient) {
-    this.playerStats = new PlayerStatistics();
     this.localStorageKey = environment.localStorageKey;
-    //this.apiUrl = environment.apiUrl + '/playerStats';
-    this.apiUrl = "http://localhost:3000/api/playerStats";
+    this.apiUrl = environment.baseApiUrl + environment.playerStatsPath;
   }
 
   async upsertPlayerStatistics(playerStats: PlayerStatistics) {
-    return await firstValueFrom(this.http.post<PlayerStatistics>(this.apiUrl, playerStats));
+    return await firstValueFrom(this.http.post<PlayerStatistics>(this.apiUrl + playerStats.playerIdentifier, playerStats));
   }
 
   async updatePlayerStatistics(playerId: string, winner: boolean, currentDate: Date, guessCount: number, complexity: ComplexityLevel) {
-    // retrieve player statistics
-    this.retrievePlayerStatisticsByPlayerId(playerId);
-
-    // update the player's statistics
-    this.playerStats.lastDatePlayed = currentDate;
-    this.playerStats.totalGamesPlayed += 1;
-
-    if (winner) {
-      this.playerStats.totalGamesWon += 1;
-      this.playerStats.currentWinStreak += 1;
-
-      if (this.playerStats.longestWinStreak < this.playerStats.currentWinStreak) {
-        this.playerStats.longestWinStreak = this.playerStats.currentWinStreak;
+    // fetch and update player statistics
+    this.retrievePlayerStatisticsByPlayerId(playerId).then(player => {
+      player.lastDatePlayed = currentDate;
+      player.totalGamesPlayed += 1;
+      
+      if (winner) {
+        player.totalGamesWon += 1;
+        player.currentWinStreak += 1;
+        if (player.longestWinStreak < player.currentWinStreak) {
+          player.longestWinStreak = player.currentWinStreak;
+        }
       }
-    }
-    else {
-      this.playerStats.currentWinStreak = 0;
-    }
+      else {
+        player.currentWinStreak = 0;
+      }
 
-    switch (complexity) {
-      case ComplexityLevel.Medium:
-        this.playerStats.frequencyDistributionMedium[guessCount] += 1;
-        break;
-      case ComplexityLevel.Hard:
-        this.playerStats.frequencyDistributionHard[guessCount] += 1;
-        break;
-      default:
-        this.playerStats.frequencyDistributionEasy[guessCount] += 1;
-        break;
-    }
-
-    await this.upsertPlayerStatistics(this.playerStats).then(player => { this.playerStats = player});
-
-    return this.playerStats;
+      switch (complexity) {
+        case ComplexityLevel.Medium:
+          player.frequencyDistributionMedium[guessCount] += 1;
+          break;
+        case ComplexityLevel.Hard:
+          player.frequencyDistributionHard[guessCount] += 1;
+          break;
+        default:
+          player.frequencyDistributionEasy[guessCount] += 1;
+          break;
+      }
+      
+      this.upsertPlayerStatistics(player);
+    });
   }
 
   async retrievePlayerStatistics() {
     let playerId = localStorage.getItem(this.localStorageKey);
 
     if (playerId == null) {
-      this.playerStats = await this.upsertPlayerStatistics(new PlayerStatistics());
-      localStorage.setItem(this.localStorageKey, this.playerStats.playerIdentifier);
-      return this.playerStats;
+      return await this.upsertPlayerStatistics(new PlayerStatistics()).then(player => {
+        localStorage.setItem(this.localStorageKey, player.playerIdentifier);
+        return player;
+      });
     }
     else {
-      return await firstValueFrom(this.http.get<PlayerStatistics>(this.apiUrl + '/' + playerId));    
+      return await firstValueFrom(this.http.get<PlayerStatistics>(this.apiUrl + playerId));    
     }
   }
 
   async retrievePlayerStatisticsByPlayerId(playerId: string) {
-    return await firstValueFrom(this.http.get<PlayerStatistics>(this.apiUrl + '/' + playerId));
+    return await firstValueFrom(this.http.get<PlayerStatistics>(this.apiUrl + playerId));
   }
 }

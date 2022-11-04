@@ -1,41 +1,41 @@
 <div id="keyboard">
   <div class="keyboardRow">
     <div class="spacer half"></div>
-      <GameButton #keyboardButtons value="Q" (click)="letterSelected('Q')"></GameButton>
-      <GameButton #keyboardButtons value="W" (click)="letterSelected('W')"></GameButton>
-      <GameButton #keyboardButtons value="E" (click)="letterSelected('E')"></GameButton>
-      <GameButton #keyboardButtons value="R" (click)="letterSelected('R')"></GameButton>
-      <GameButton #keyboardButtons value="T" (click)="letterSelected('T')"></GameButton>
-      <GameButton #keyboardButtons value="Y" (click)="letterSelected('Y')"></GameButton>
-      <GameButton #keyboardButtons value="U" (click)="letterSelected('U')"></GameButton>
-      <GameButton #keyboardButtons value="I" (click)="letterSelected('I')"></GameButton>
-      <GameButton #keyboardButtons value="O" (click)="letterSelected('O')"></GameButton>
-      <GameButton #keyboardButtons value="P" (click)="letterSelected('P')"></GameButton>
+      <GameButton #keyboardButtons value="q" currentState="absent" (click)="letterSelected('q')"></GameButton>
+      <GameButton #keyboardButtons value="w" currentState="absent" (click)="letterSelected('w')"></GameButton>
+      <GameButton #keyboardButtons value="e" currentState="absent" (click)="letterSelected('e')"></GameButton>
+      <GameButton #keyboardButtons value="r" currentState="absent" (click)="letterSelected('r')"></GameButton>
+      <GameButton #keyboardButtons value="t" currentState="absent" (click)="letterSelected('t')"></GameButton>
+      <GameButton #keyboardButtons value="y" currentState="absent" (click)="letterSelected('y')"></GameButton>
+      <GameButton #keyboardButtons value="u" currentState="absent" (click)="letterSelected('u')"></GameButton>
+      <GameButton #keyboardButtons value="i" currentState="absent" (click)="letterSelected('i')"></GameButton>
+      <GameButton #keyboardButtons value="o" currentState="absent" (click)="letterSelected('o')"></GameButton>
+      <GameButton #keyboardButtons value="p" currentState="absent" (click)="letterSelected('p')"></GameButton>
     <div class="spacer half"></div>
   </div>
   <div class="keyboardRow">
     <div class="spacer half"></div>
-      <GameButton #keyboardButtons value="A" (click)="letterSelected('A')"></GameButton>
-      <GameButton #keyboardButtons value="S" (click)="letterSelected('S')"></GameButton>
-      <GameButton #keyboardButtons value="D" (click)="letterSelected('D')"></GameButton>
-      <GameButton #keyboardButtons value="F" (click)="letterSelected('F')"></GameButton>
-      <GameButton #keyboardButtons value="G" (click)="letterSelected('G')"></GameButton>
-      <GameButton #keyboardButtons value="H" (click)="letterSelected('H')"></GameButton>
-      <GameButton #keyboardButtons value="J" (click)="letterSelected('J')"></GameButton>
-      <GameButton #keyboardButtons value="K" (click)="letterSelected('K')"></GameButton>
-      <GameButton #keyboardButtons value="L" (click)="letterSelected('L')"></GameButton>
+      <GameButton #keyboardButtons value="a" currentState="absent" (click)="letterSelected('a')"></GameButton>
+      <GameButton #keyboardButtons value="s" currentState="absent" (click)="letterSelected('s')"></GameButton>
+      <GameButton #keyboardButtons value="d" currentState="absent" (click)="letterSelected('d')"></GameButton>
+      <GameButton #keyboardButtons value="f" currentState="absent" (click)="letterSelected('f')"></GameButton>
+      <GameButton #keyboardButtons value="g" currentState="absent" (click)="letterSelected('g')"></GameButton>
+      <GameButton #keyboardButtons value="h" currentState="absent" (click)="letterSelected('h')"></GameButton>
+      <GameButton #keyboardButtons value="j" currentState="absent" (click)="letterSelected('j')"></GameButton>
+      <GameButton #keyboardButtons value="k" currentState="absent" (click)="letterSelected('k')"></GameButton>
+      <GameButton #keyboardButtons value="l" currentState="absent" (click)="letterSelected('l')"></GameButton>
     <div class="spacer half"></div>
   </div>
   <div class="keyboardRow">
     <div class="spacer half"></div>
       <button (click)="checkUserGuess()">Enter</button>
-      <GameButton #keyboardButtons value="Z" (click)="letterSelected('Z')"></GameButton>
-      <GameButton #keyboardButtons value="X" (click)="letterSelected('X')"></GameButton>
-      <GameButton #keyboardButtons value="C" (click)="letterSelected('C')"></GameButton>
-      <GameButton #keyboardButtons value="V" (click)="letterSelected('V')"></GameButton>
-      <GameButton #keyboardButtons value="B" (click)="letterSelected('B')"></GameButton>
-      <GameButton #keyboardButtons value="N" (click)="letterSelected('N')"></GameButton>
-      <GameButton #keyboardButtons value="M" (click)="letterSelected('M')"></GameButton>
+      <GameButton #keyboardButtons value="z" currentState="absent" (click)="letterSelected('z')"></GameButton>
+      <GameButton #keyboardButtons value="x" currentState="absent" (click)="letterSelected('x')"></GameButton>
+      <GameButton #keyboardButtons value="c" currentState="absent" (click)="letterSelected('c')"></GameButton>
+      <GameButton #keyboardButtons value="v" currentState="absent" (click)="letterSelected('v')"></GameButton>
+      <GameButton #keyboardButtons value="b" currentState="absent" (click)="letterSelected('b')"></GameButton>
+      <GameButton #keyboardButtons value="n" currentState="absent" (click)="letterSelected('n')"></GameButton>
+      <GameButton #keyboardButtons value="m" currentState="absent" (click)="letterSelected('m')"></GameButton>
       <button (click)="undo()">
         <i class="fa fa-undo"></i>
       </button>

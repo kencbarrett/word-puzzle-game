@@ -3,16 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { ComplexityLevel } from '../models/complexityLevel';
 import { ValidWord } from '../models/validWord';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameWordService {
   private apiUrl: string;
+  private selectWordPath: string;
+  private validateWordPath: string;
 
   constructor(private http: HttpClient) { 
-    //this.apiUrl = environment.apiUrl;
-    this.apiUrl = "http://localhost:3000/api";
+    this.apiUrl = environment.baseApiUrl;
+    this.selectWordPath = environment.selectWordPath;
+    this.validateWordPath = environment.validateWordPath;
   }
 
   async selectNewWord(complexity: ComplexityLevel, playerId: string) {
@@ -32,10 +36,10 @@ export class GameWordService {
         break;
     }
 
-    return await firstValueFrom(this.http.get<ValidWord>(this.apiUrl + '/selectWord/' + level + '/' + playerId));
+    return await firstValueFrom(this.http.get<ValidWord>(this.apiUrl + this.selectWordPath + level + '/' + playerId));
   }
 
   async validateWord(wordToCheck: string) {
-    return await firstValueFrom(this.http.get<boolean>(this.apiUrl + '/validateWord/' + wordToCheck));
+    return await firstValueFrom(this.http.get<boolean>(this.apiUrl + this.validateWordPath + wordToCheck));
   }
 }

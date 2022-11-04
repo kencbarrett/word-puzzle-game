@@ -1,5 +1,5 @@
 import { Injectable, resolveForwardRef } from '@angular/core';
-import { NotFoundError } from 'rxjs';
+import { firstValueFrom, NotFoundError } from 'rxjs';
 import { ComplexityLevel } from '../models/complexityLevel';
 import { EvaluatedLetter } from '../models/evaluatedLetter';
 import { EvaluatedWord } from '../models/evaluatedWord';
@@ -29,10 +29,8 @@ export class GameEngineService {
 
   startGame(complexity: ComplexityLevel) {
     this.statsService.retrievePlayerStatistics().then(result => {
-      //console.log(result);
       this.setPlayerStatistics(result);
       this.wordService.selectNewWord(complexity, result.playerIdentifier).then(result => {
-        //console.log(result);
         this.setCurrentWord(result);
       })
     });
@@ -73,6 +71,10 @@ export class GameEngineService {
     return evaluatedWord;
   }
 
+  validateWord(word: string) {
+    return this.wordService.validateWord(word);
+  }
+
   isValidWord(word: string) {
     this.wordService.validateWord(word).then(result => {
       this.setWordIsValid(result);
@@ -86,10 +88,12 @@ export class GameEngineService {
   }
 
   updatePlayerStatistics(wonGame: boolean, currentDate: Date, guessCount: number, complexity: ComplexityLevel) {
+    // this.statsService.updatePlayerStatistics(this.playerStatistics.playerIdentifier, 
+    //     wonGame, currentDate, guessCount, complexity).then(result => {
+    //       this.setPlayerStatistics(result);
+    //     });
     this.statsService.updatePlayerStatistics(this.playerStatistics.playerIdentifier, 
-        wonGame, currentDate, guessCount, complexity).then(result => {
-          this.playerStatistics = result;
-        });
+      wonGame, currentDate, guessCount, complexity);
   }
 
   private setPlayerStatistics(player: PlayerStatistics) {

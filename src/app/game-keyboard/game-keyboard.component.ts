@@ -14,10 +14,9 @@ export class GameKeyboardComponent implements OnInit {
   @Output() checkWord = new EventEmitter(true);
   @Output() nextLetter = new EventEmitter(true);
   @Output() undoLetter = new EventEmitter(true);
-  currentGuess: string[];
+  currentGuess: string[] = [];
 
   constructor(private stateService: GameStateService) { 
-    this.currentGuess = new Array<string>(5);
   }
 
   ngOnInit(): void {
@@ -52,25 +51,25 @@ export class GameKeyboardComponent implements OnInit {
       this.currentGuess.forEach(cg => {
         if (presentLetters.findIndex(pl => { pl.letter == cg }) != -1) {
           var button = this.keyboardButtons?.find(kb => kb.value == cg) as GameButtonComponent;
-          button.setCurrentState("present");
+          button.currentState = "present";
         }
         else {
           if (correctLetters.findIndex(cl => { cl.letter == cg}) != -1) {
             var button = this.keyboardButtons?.find(kb => kb.value == cg) as GameButtonComponent;
-            button.setCurrentState("correct");
+            button.currentState ="correct";
           }
           else {
             var button = this.keyboardButtons?.find(kb => kb.value == cg) as GameButtonComponent;
-            button.setCurrentState("absent");
+            button.currentState = "absent";
           }
         }
       });
 
-      this.currentGuess.fill("");
+      this.currentGuess = [];
   }
 
   reset() {
-    this.currentGuess.fill("");
+    this.currentGuess = [];
 
     this.keyboardButtons?.forEach(kb => kb.reset());
   }

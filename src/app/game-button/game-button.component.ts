@@ -7,21 +7,21 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class GameButtonComponent implements OnInit {
   @Input('value') value: string;
-  currentState: string;
+  @Input('currentState') currentState: string;
 
   constructor() { 
     this.value = "";
-    this.currentState = "";
+    this.currentState = "absent";
   }
 
   ngOnInit(): void {
   }
 
-  setCurrentState(currentState: string) {
-    this.currentState = currentState;
-  }
+  // setCurrentState(currentState: string) {
+  //   this.currentState = currentState;
+  // }
 
   reset() {
-    this.currentState = "";
+    this.currentState = "absent";
   }
 }

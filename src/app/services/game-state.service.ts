@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComplexityLevel } from '../models/complexityLevel';
+import { PlayerStatistics } from '../models/playerStatistics';
 
 @Injectable({
   providedIn: 'root'
