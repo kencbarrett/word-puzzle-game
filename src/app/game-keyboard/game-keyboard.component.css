@@ -16,13 +16,14 @@
   touch-action: manipulation;
 }
 
-::deep button {
+:host ::ng-deep button {
   font-family: inherit;
   font-weight: bold;
   border: 0px;
   padding: 0;
   margin: 0 6px 0 0;
   height: 58px;
+  width: 42px;
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
@@ -36,29 +37,34 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0.3);
 }
 
-::deep button:focus {
+:host ::ng-deep button:focus {
   outline: none;
 }
 
-::deep button.fade {
+:host ::ng-deep button.fade {
   transition: background-color 0.1s ease, color 0.1s ease;
 }
 
-::deep button:last-of-type {
+button:last-of-type {
   margin: 0;
 }
 
-::deep button[data-state='correct'] {
+:host ::ng-deep button[data-state=''] {
+  background-color: var(--key-bg);
+  color: var(--key-text-color);
+}
+
+:host ::ng-deep button[data-state='correct'] {
   background-color: var(--key-bg-correct);
   color: var(--key-evaluated-text-color);
 }
 
-::deep button[data-state='present'] {
+:host ::ng-deep button[data-state='present'] {
   background-color: var(--key-bg-present);
   color: var(--key-evaluated-text-color);
 }
 
-::deep button[data-state='absent'] {
+:host ::ng-deep button[data-state='absent'] {
   background-color: var(--key-bg-absent);
   color: var(--key-evaluated-text-color);
 }

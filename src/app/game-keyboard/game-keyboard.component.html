@@ -1,43 +1,43 @@
 <div id="keyboard">
   <div class="keyboardRow">
     <div class="spacer half"></div>
-      <GameButton #keyboardButtons value="q" currentState="absent" (click)="letterSelected('q')"></GameButton>
-      <GameButton #keyboardButtons value="w" currentState="absent" (click)="letterSelected('w')"></GameButton>
-      <GameButton #keyboardButtons value="e" currentState="absent" (click)="letterSelected('e')"></GameButton>
-      <GameButton #keyboardButtons value="r" currentState="absent" (click)="letterSelected('r')"></GameButton>
-      <GameButton #keyboardButtons value="t" currentState="absent" (click)="letterSelected('t')"></GameButton>
-      <GameButton #keyboardButtons value="y" currentState="absent" (click)="letterSelected('y')"></GameButton>
-      <GameButton #keyboardButtons value="u" currentState="absent" (click)="letterSelected('u')"></GameButton>
-      <GameButton #keyboardButtons value="i" currentState="absent" (click)="letterSelected('i')"></GameButton>
-      <GameButton #keyboardButtons value="o" currentState="absent" (click)="letterSelected('o')"></GameButton>
-      <GameButton #keyboardButtons value="p" currentState="absent" (click)="letterSelected('p')"></GameButton>
+      <GameButton #keyboardButtons value="q" currentState="" (click)="letterSelected('q')"></GameButton>
+      <GameButton #keyboardButtons value="w" currentState="" (click)="letterSelected('w')"></GameButton>
+      <GameButton #keyboardButtons value="e" currentState="" (click)="letterSelected('e')"></GameButton>
+      <GameButton #keyboardButtons value="r" currentState="" (click)="letterSelected('r')"></GameButton>
+      <GameButton #keyboardButtons value="t" currentState="" (click)="letterSelected('t')"></GameButton>
+      <GameButton #keyboardButtons value="y" currentState="" (click)="letterSelected('y')"></GameButton>
+      <GameButton #keyboardButtons value="u" currentState="" (click)="letterSelected('u')"></GameButton>
+      <GameButton #keyboardButtons value="i" currentState="" (click)="letterSelected('i')"></GameButton>
+      <GameButton #keyboardButtons value="o" currentState="" (click)="letterSelected('o')"></GameButton>
+      <GameButton #keyboardButtons value="p" currentState="" (click)="letterSelected('p')"></GameButton>
     <div class="spacer half"></div>
   </div>
   <div class="keyboardRow">
     <div class="spacer half"></div>
-      <GameButton #keyboardButtons value="a" currentState="absent" (click)="letterSelected('a')"></GameButton>
-      <GameButton #keyboardButtons value="s" currentState="absent" (click)="letterSelected('s')"></GameButton>
-      <GameButton #keyboardButtons value="d" currentState="absent" (click)="letterSelected('d')"></GameButton>
-      <GameButton #keyboardButtons value="f" currentState="absent" (click)="letterSelected('f')"></GameButton>
-      <GameButton #keyboardButtons value="g" currentState="absent" (click)="letterSelected('g')"></GameButton>
-      <GameButton #keyboardButtons value="h" currentState="absent" (click)="letterSelected('h')"></GameButton>
-      <GameButton #keyboardButtons value="j" currentState="absent" (click)="letterSelected('j')"></GameButton>
-      <GameButton #keyboardButtons value="k" currentState="absent" (click)="letterSelected('k')"></GameButton>
-      <GameButton #keyboardButtons value="l" currentState="absent" (click)="letterSelected('l')"></GameButton>
+      <GameButton #keyboardButtons value="a" currentState="" (click)="letterSelected('a')"></GameButton>
+      <GameButton #keyboardButtons value="s" currentState="" (click)="letterSelected('s')"></GameButton>
+      <GameButton #keyboardButtons value="d" currentState="" (click)="letterSelected('d')"></GameButton>
+      <GameButton #keyboardButtons value="f" currentState="" (click)="letterSelected('f')"></GameButton>
+      <GameButton #keyboardButtons value="g" currentState="" (click)="letterSelected('g')"></GameButton>
+      <GameButton #keyboardButtons value="h" currentState="" (click)="letterSelected('h')"></GameButton>
+      <GameButton #keyboardButtons value="j" currentState="" (click)="letterSelected('j')"></GameButton>
+      <GameButton #keyboardButtons value="k" currentState="" (click)="letterSelected('k')"></GameButton>
+      <GameButton #keyboardButtons value="l" currentState="" (click)="letterSelected('l')"></GameButton>
     <div class="spacer half"></div>
   </div>
   <div class="keyboardRow">
     <div class="spacer half"></div>
-      <button (click)="checkUserGuess()">Enter</button>
-      <GameButton #keyboardButtons value="z" currentState="absent" (click)="letterSelected('z')"></GameButton>
-      <GameButton #keyboardButtons value="x" currentState="absent" (click)="letterSelected('x')"></GameButton>
-      <GameButton #keyboardButtons value="c" currentState="absent" (click)="letterSelected('c')"></GameButton>
-      <GameButton #keyboardButtons value="v" currentState="absent" (click)="letterSelected('v')"></GameButton>
-      <GameButton #keyboardButtons value="b" currentState="absent" (click)="letterSelected('b')"></GameButton>
-      <GameButton #keyboardButtons value="n" currentState="absent" (click)="letterSelected('n')"></GameButton>
-      <GameButton #keyboardButtons value="m" currentState="absent" (click)="letterSelected('m')"></GameButton>
-      <button (click)="undo()">
-        <i class="fa fa-undo"></i>
+      <button class="one-and-a-half" (click)="checkUserGuess()">Enter</button>
+      <GameButton #keyboardButtons value="z" currentState="" (click)="letterSelected('z')"></GameButton>
+      <GameButton #keyboardButtons value="x" currentState="" (click)="letterSelected('x')"></GameButton>
+      <GameButton #keyboardButtons value="c" currentState="" (click)="letterSelected('c')"></GameButton>
+      <GameButton #keyboardButtons value="v" currentState="" (click)="letterSelected('v')"></GameButton>
+      <GameButton #keyboardButtons value="b" currentState="" (click)="letterSelected('b')"></GameButton>
+      <GameButton #keyboardButtons value="n" currentState="" (click)="letterSelected('n')"></GameButton>
+      <GameButton #keyboardButtons value="m" currentState="" (click)="letterSelected('m')"></GameButton>
+      <button class="one-and-a-half" (click)="undo()">
+        <i class="fa-solid fa-delete-left"></i>
       </button>
     <div class="spacer half"></div>
   </div>

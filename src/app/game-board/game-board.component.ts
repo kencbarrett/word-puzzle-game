@@ -120,7 +120,7 @@ export class GameBoardComponent implements OnInit {
             }
 
             var gameRow = this.gameRows?.get(this.stateService.currentGuess);
-            gameRow.gameTiles.get(this.stateService.currentColumn).updateTileValue("");
+            gameRow.gameTiles.get(this.stateService.currentColumn).reset();
         }
     }
     else
@@ -152,7 +152,8 @@ export class GameBoardComponent implements OnInit {
           else {
             const evaluatedWord = this.gameEngineService.evaluateCurrentGuess(userGuess);
             currentRow.updateTiles(evaluatedWord);
-            this.keyboard.updateKeyboard(evaluatedWord);
+            //this.keyboard.updateKeyboard(evaluatedWord);
+            this.keyboard.updateKeyboardButtons(evaluatedWord);
 
             if (this.stateService.currentGuess < 5) {
               this.stateService.incrementCurrentGuess();

@@ -17,10 +17,6 @@ export class GameButtonComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // setCurrentState(currentState: string) {
-  //   this.currentState = currentState;
-  // }
-
   reset() {
     this.currentState = "absent";
   }
