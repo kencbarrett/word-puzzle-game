@@ -15,7 +15,6 @@ export class GameKeyboardComponent implements OnInit {
   @Output() checkWord = new EventEmitter(true);
   @Output() nextLetter = new EventEmitter(true);
   @Output() undoLetter = new EventEmitter(true);
-  currentGuess: string[] = [];
   userGuessKeys: GameButtonComponent[] = [] 
 
   constructor(private stateService: GameStateService) { 
@@ -26,7 +25,6 @@ export class GameKeyboardComponent implements OnInit {
 
   letterSelected(letter: string) {
     if (this.stateService.currentColumn < 5) {
-      this.currentGuess.push(letter);
       var button = <GameButtonComponent>this.keyboardButtons?.find(button => button.value == letter);
       this.userGuessKeys.push(button)
     }
@@ -36,7 +34,6 @@ export class GameKeyboardComponent implements OnInit {
 
   undo() {
     if (this.stateService.currentColumn > 0) {
-      this.currentGuess.pop();
       this.userGuessKeys.pop();
     }
 
@@ -50,11 +47,14 @@ export class GameKeyboardComponent implements OnInit {
 
   updateKeyboardButtons(evaluatedWord: EvaluatedWord) {
     this.userGuessKeys.forEach(button => {
-      if (evaluatedWord.presentLetters.findIndex(pl => { pl.letter === button.value}) > -1) {
+      let index = evaluatedWord.presentLetters.findIndex(pl => pl.letter == button.value);
+
+      if (index >= 0) {
         button.currentState = "present";
       }
       else {
-        if (evaluatedWord.correctLetters.findIndex(cl => { cl.letter === button.value }) > -1) {
+        index = evaluatedWord.correctLetters.findIndex(cl => cl.letter == button.value);
+        if (index >= 0) {
           button.currentState = "correct";
         }
         else {
@@ -66,33 +66,8 @@ export class GameKeyboardComponent implements OnInit {
     this.userGuessKeys = [];
   }
 
-  updateKeyboard(evaluatedWord: EvaluatedWord)
-  {
-      var correctLetters = evaluatedWord.correctLetters;
-      var presentLetters = evaluatedWord.presentLetters;
-
-      this.currentGuess.forEach(letter => {
-        if (presentLetters.findIndex(pl => { pl.letter == letter }) > -1) {
-          var button = this.keyboardButtons?.find(kb => kb.value == letter ) as GameButtonComponent;
-          button.currentState = 'present';
-        }
-        else {
-          if (correctLetters.findIndex(cl => { cl.letter == letter}) > -1) {
-            var button = this.keyboardButtons?.find(kb => kb.value == letter) as GameButtonComponent;
-            button.currentState = 'correct';
-          }
-          else {
-            var button = this.keyboardButtons?.find(kb => kb.value == letter) as GameButtonComponent;
-            button.currentState = 'absent';
-          }
-        }
-      });
-
-      this.currentGuess = [];
-  }
-
   reset() {
-    this.currentGuess = [];
+    this.userGuessKeys = [];
 
     this.keyboardButtons?.forEach(kb => kb.reset());
   }

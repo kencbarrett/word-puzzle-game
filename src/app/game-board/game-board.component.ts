@@ -166,17 +166,17 @@ export class GameBoardComponent implements OnInit {
           currentRow.invalidWord();
           this.toastr.error("Not a valid word");          
         }
-      });
 
-      if (this.stateService.guessCount == 0 && this.gameEngineService.gameInProgress) {
-        const theWord = this.gameEngineService.currentWord;
-        this.gameEngineService.endGame();
-        this.gameEngineService.updatePlayerStatistics(false, new Date(), 
-            this.stateService.currentGuess, this.stateService.complexity);
-        this.toastr.info("Sorry!  You did not guess the word - " + theWord.word);
-        // ShowGameStatsModal();
-        this.isDisabled = !this.isDisabled;
-      }
+        if (this.stateService.guessCount == 0 && this.gameEngineService.gameInProgress) {
+          const theWord = this.gameEngineService.currentWord;
+          this.gameEngineService.endGame();
+          this.gameEngineService.updatePlayerStatistics(false, new Date(), 
+              this.stateService.currentGuess, this.stateService.complexity);
+          this.toastr.info("Sorry!  You did not guess the word - " + theWord.word);
+          // ShowGameStatsModal();
+          this.isDisabled = !this.isDisabled;
+        }
+      });
     }
     else {
       this.toastr.error("You need to start a game first.");
