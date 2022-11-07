@@ -68,9 +68,7 @@
               "browserTarget": "word-puzzle-game:build:production"
             },
             "development": {
-              "browserTarget": "word-puzzle-game:build:development",
-              "proxyConfig": "src/proxy.conf.json"
-            }
+              "browserTarget": "word-puzzle-game:build:development"            }
           },
           "defaultConfiguration": "development"
         },
