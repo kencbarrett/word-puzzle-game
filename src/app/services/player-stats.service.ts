@@ -55,7 +55,9 @@ export class PlayerStatsService {
   }
 
   async retrievePlayerStatistics() {
+    console.log("localStorageKey = " + this.localStorageKey);
     let playerId = localStorage.getItem(this.localStorageKey);
+    console.log("playerId = " + playerId);
 
     if (playerId == null) {
       return await this.upsertPlayerStatistics(new PlayerStatistics()).then(player => {
