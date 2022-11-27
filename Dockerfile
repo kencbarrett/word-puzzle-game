@@ -1,5 +1,5 @@
 # Step 1
-FROM node:19-alpine as build-step
+FROM node:18-alpine as build-step
 
 WORKDIR /app
 
