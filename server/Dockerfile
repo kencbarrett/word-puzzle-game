@@ -1,12 +1,26 @@
-FROM node:18-alpine as build-step
+FROM node:18-alpine as builder
 
 WORKDIR /app
 
-COPY package.json /app
+COPY package*.json ./
 
 RUN npm install
 
-COPY . /app
+COPY . .
+
+RUN npm run build
+
+FROM node:18-alpine as server
+
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install --omit=dev
+
+COPY --from=builder ./app/build ./build
 
 EXPOSE 3000
 

@@ -7,8 +7,8 @@ import path from "path";
 
 dotenv.config();
 
-const mongodbURI = process.env['ATLAS_URI'];
-const port = process.env['PORT'];
+const mongodbURI = process.env['APPSETTING_ATLAS_URI'];
+const port = process.env['APPSETTING_PORT'];
 const app: Application = express();
 
 if (!mongodbURI) {
